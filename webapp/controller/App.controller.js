@@ -1,7 +1,7 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller"
 ],
-	/** bbb bbbbb
+	/** btest
 	 * @param {typeof sap.ui.core.mvc.Controller} Controller
 	 */
 	function (Controller) {
