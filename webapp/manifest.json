@@ -94,16 +94,12 @@
         {
           "name": "MainList",
           "pattern": "",
-          "target": [
-            "MainList"
-          ]
+          "target": ["MainList"]
         },
         {
           "name": "Object",
           "pattern": "Object/:orderNumber:",
-          "target": [
-            "Object"
-          ]
+          "target": ["Object"]
         }
       ],
       "targets": {

@@ -2,6 +2,7 @@
 		controllerName="createsalesorder.controller.MainList"
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns="sap.m"
+		xmlns:t="sap.ui.table"
 		xmlns:f="sap.f"
 		xmlns:layout="sap.ui.layout"
 		xmlns:form="sap.ui.layout.form"
@@ -13,18 +14,14 @@
 					<f:heading>
 						<Title text="Display Sales Order"/>
 					</f:heading>
-					<f:content>
-						
-					</f:content>
-					
-					<f:navigationActions>
-						
+					<!-- <f:navigationActions>
 						<Button
 								icon="sap-icon://decline"
 								type="Transparent" />
-					</f:navigationActions>
+					</f:navigationActions> -->
 				</f:DynamicPageTitle>
 			</f:title>
+
 			<!-- DynamicPage Header -->
 			<f:header>
 				<f:DynamicPageHeader pinnable="true">
@@ -47,57 +44,74 @@
 								ariaLabelledBy="Title1" >
 						<form:content>
 							<VBox>
-								<Label text="Sales Order Number:"/>
-								<Input value="{viewModel>/order}"/>
+								<Label text="Sales Order Number:" labelFor="sono" />
+								<Input id="sono" value="{viewModel>/filter/sono}"/>
 								<layoutData>
 									<layout:GridData span="L2 M12 S12" />
 								</layoutData>
 							</VBox>
 							<VBox>
-								<Label text="Customer:"/>
-								<Input value="{viewModel>/customer}"/>
+								<Label text="Sales Order Date:" labelFor="date" />
+								<DatePicker
+									id="date"
+									valueFormat="yyyy-MM-dd"
+									value="{viewModel>/filter/sodat}"/>
 								<layoutData>
 									<layout:GridData span="L2 M12 S12" />
 								</layoutData>
 							</VBox>
-							<HBox>
+							<VBox>
+								<Label text="Customer:" labelFor="cuscd"/>
+								<Input id="cuscd" value="{viewModel>/filter/cuscd}"/>
+								<layoutData>
+									<layout:GridData span="L2 M12 S12" />
+								</layoutData>
+							</VBox>
+							<VBox>
 								<Button text="Search" press="onSearch" />
 								<layoutData>
 									<layout:GridData span="L1 M12 S12" />
 								</layoutData>
-							</HBox>
+							</VBox>
 							<VBox>
 								<Button text="Create" press="onCreate"/>
 								<layoutData>
 									<layout:GridData span="L1 M12 S12" />
 								</layoutData>
 							</VBox>
-							
-							<Label text="test" labelFor="multiInput"/>
-							<MultiInput
-								id="multiInput"
-								valueHelpOnly="true"
-								valueHelpRequest=".onValueHelpRequested">
-							</MultiInput>
 						</form:content>
 					</form:SimpleForm>
+						
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
-				<Table id="idProductsTable"
-						items="{
-							path: '/ProductCollection',
-							sorter: {
-								path: 'Name'
-							}
-						}"
-					   width="auto">
-					<headerToolbar>
-						<Toolbar>
-							<Title text="List" />
-						</Toolbar>
-					</headerToolbar>
-					<columns>
+				<t:Table 	
+						id="listTable"
+						rows="{viewModel>/it_data}"
+						selectionMode="Single"
+						rowHeight="Auto">
+					<t:extension>
+						<OverflowToolbar style="Clear">
+							<Title text="Order List"/>
+				    	<!-- <ToolbarSpacer/>
+								<Button
+								icon="sap-icon://add"
+								press="onAdd"/>
+								<Button
+								icon="sap-icon://less"
+								press="onDelete"/>
+								<Button
+								text="Edit"
+								press="onEdit"/>
+								<Button
+								text="Save"
+								press="onSave"/>
+								<Button
+								text="SelectedDelete"
+								press="onSelectedDelete"/> -->
+						</OverflowToolbar>
+					</t:extension>
+					<!-- <columns>
 						<Column>
 							<Text text="Order No." />
 						</Column>
@@ -110,32 +124,58 @@
 						<Column>
 							<Text text="Status" />
 						</Column>
-					</columns>
-					<items>
-						<ColumnListItem>
-							<cells>
-								<ObjectIdentifier
-										title="{Name}"
-										text="{ProductId}"/>
-								<Text
-										text="{SupplierName}" />
-								<Text
-										text="{Width} x {Depth} x {Height} {DimUnit}" />
-								<ObjectNumber
-										number="{
-											parts:[{path:'Price'},{path:'CurrencyCode'}],
-											type: 'sap.ui.model.type.Currency',
-											formatOptions: {showMeasure: false}
-										}"
-										unit="{CurrencyCode}" />
-							</cells>
-						</ColumnListItem>
-					</items>
-				</Table>
+					</columns> -->
+					<t:columns>
+						<t:Column width="11rem">
+							<Label text="Order No." />
+							<t:template>
+								<Input value="{viewModel>sono}" editable ="{viewModel>/editMode}" />
+							</t:template>
+						</t:Column>
+						<t:Column width="11rem">
+							<Label text="Status" />
+							<t:template>
+								<Input value="{viewModel>sosta}" editable ="{viewModel>/editMode}"/>
+							</t:template>
+						</t:Column>
+						<t:Column width="11rem" hAlign="End">
+							<Label text="Order Date" />
+							<t:template>
+								<DatePicker
+									id="sodat"
+									valueFormat="yyyy-MM-dd"
+									value="{viewModel>sodat}"
+									editable ="{viewModel>/editMode}"/>
+							</t:template>
+						</t:Column>
+						<!-- <t:Column width="11rem">
+							<Label text="Price" />
+							<t:template>
+								<Input value="{
+									path: 'viewModel>price'
+								}"
+								editable ="{viewModel>/editMode}" />
+								<u:Currency value="{main>price}" currency="{main>currency}"/>
+							</t:template>
+						</t:Column> -->
+						<t:Column width="11rem">
+							<Label text="Customer" />
+							<t:template>
+								<Input value="{viewModel>cuscd}" editable ="{viewModel>/editMode}"/>
+							</t:template>
+						</t:Column>
+						<t:Column width="11rem">
+							<Label text="Customer Name" />
+							<t:template>
+								<Input value="{viewModel>cusnm}" editable ="{viewModel>/editMode}"/>
+							</t:template>
+						</t:Column>				
+					</t:columns>
+				</t:Table>
 			</f:content>
 			<!-- DynamicPage Footer -->
 			<f:footer>
-				<OverflowToolbar>
+				<!-- <OverflowToolbar>
 					<Button icon="sap-icon://message-popup"
 							text="{/messagesLength}"
 							type="Emphasized"
@@ -144,7 +184,7 @@
 					<ToolbarSpacer/>
 					<Button type="Accept" text="Accept"/>
 					<Button type="Reject" text="Reject"/>
-				</OverflowToolbar>
+				</OverflowToolbar> -->
 			</f:footer>
 		</f:DynamicPage>
 </mvc:View>
