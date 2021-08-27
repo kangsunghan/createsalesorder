@@ -1,0 +1,167 @@
+<mvc:View
+		controllerName="createsalesorder.controller.DisplayOrder"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns="sap.m"
+		xmlns:t="sap.ui.table"
+		xmlns:u="sap.ui.unified"
+		xmlns:f="sap.f"
+		xmlns:layout="sap.ui.layout"
+		height="100%">
+		<f:DynamicPage id="dynamicPageId">
+			<!-- DynamicPage Title -->
+			<f:title>
+				<f:DynamicPageTitle>
+					<f:heading>
+						<Toolbar>
+							<Button type="Back" press="onBack" />
+							<ToolbarSpacer/>
+							<Title text="Sales Order: {viewModel>/filter}"/>
+						</Toolbar>
+					</f:heading>
+				</f:DynamicPageTitle>
+			</f:title>
+
+			<!-- DynamicPage Header-->  
+			<f:header>  
+				<f:DynamicPageHeader pinnable="true">
+				
+					<FlexBox
+							alignItems="Start"
+							justifyContent="SpaceBetween">
+						<items>
+							<Panel
+									backgroundDesign="Transparent"
+									class="sapUiNoContentPadding">
+								<content>
+									<layout:HorizontalLayout
+											allowWrapping="true">
+										<layout:VerticalLayout
+												class="sapUiMediumMarginEnd">
+											<Label text="Sales Order Number:" labelFor="sono" />
+											<Input
+												id="sono"
+												value="{detail>/it_data/sono}"
+												editable="false">
+											</Input>
+										</layout:VerticalLayout>
+										<layout:VerticalLayout class="sapUiMediumMarginEnd">
+										<Label text="Status:" labelFor="sosta" />
+											<Input
+												id="sosta"
+												value="{detail>/it_data/sosta_t}"
+												editable="false">
+											</Input>
+										</layout:VerticalLayout>
+										<layout:VerticalLayout class="sapUiMediumMarginEnd">
+										<Label text="Customer:" labelFor="cuscd" />
+											<HBox>
+												<Input
+													id="cuscd"
+													value="{detail>/it_data/cuscd}"
+													editable="false">
+												</Input>
+												<Input
+													id="cusnm"
+													value="{detail>/it_data/cusnm}"
+													editable="false">
+												</Input>
+											</HBox>
+										</layout:VerticalLayout>
+										<layout:VerticalLayout class="sapUiMediumMarginEnd">
+										<Label text="Date:" labelFor="sodat" />
+										<HBox>
+											<DatePicker
+												id="DTI1"
+												valueFormat="yyyy-MM-dd"
+												value="{detail>/it_data/sodat}"
+												editable="false"/>
+											<TimePicker
+												id="TMI1"
+												valueFormat="hh:MM:ss"
+												value="{detail>/it_data/sotm}"
+												editable="false"/>
+										</HBox>
+										</layout:VerticalLayout>											
+									</layout:HorizontalLayout>
+								</content>
+							</Panel>
+						</items>
+					</FlexBox>
+					
+				</f:DynamicPageHeader>
+			</f:header>
+
+			<f:content>
+				<t:Table
+						id="listTable"
+						rows="{detail>/it_data2}"
+						selectionMode="None" >
+					<t:extension>
+						<OverflowToolbar style="Clear">
+							<Title text="Product List"/>
+				    		<!-- <ToolbarSpacer/> -->
+						</OverflowToolbar>
+					</t:extension>
+					<t:columns>
+						<t:Column width="4rem">
+							<Label text="No."  />
+							<t:template>
+								<Text text="{detail>linno}"/>
+							</t:template>
+						</t:Column>
+						<t:Column >
+							<Label text="Status" />
+							<t:template>
+								<Text text="{detail>sosta_t}"/>
+							</t:template>
+						</t:Column>
+						<t:Column >
+							<Label text="Product" />
+							<t:template>
+								<Text text="{detail>gdcd}"/>
+							</t:template>
+						</t:Column>
+						<t:Column >
+							<Label text="Description" />
+							<t:template>
+								<Text text="{detail>gdnm}"/>
+							</t:template>
+						</t:Column>
+						
+
+						<t:Column width="6rem">
+							<Label text="Quentity" />
+							<t:template>
+								<Text text="{detail>socnt}" textAlign="End"/>
+							</t:template>
+						</t:Column>
+						<t:Column width="4rem">
+							<Label text="UoM" />
+							<t:template>
+								<Text text="{detail>meins}" />
+
+							</t:template>
+						</t:Column>
+
+						<t:Column>
+							<Label text="Unit Price" textAlign="Right" />
+							<t:template>
+								<u:Currency value="{detail>gdpx}" currency="{detail>waers}" useSymbol="false"/>
+							</t:template>
+						</t:Column>	
+						<t:Column >
+							<Label text="Total Amount" />
+							<t:template>
+								<u:Currency value="{detail>toamt}" currency="{detail>waers_t}" useSymbol="false"/>
+							</t:template>
+						</t:Column>		
+						
+					</t:columns>
+				</t:Table>
+			</f:content>
+			<!-- DynamicPage Footer -->
+			<f:footer>
+
+			</f:footer>
+		</f:DynamicPage>
+</mvc:View>

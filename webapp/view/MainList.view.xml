@@ -2,7 +2,6 @@
 		controllerName="createsalesorder.controller.MainList"
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns="sap.m"
-		xmlns:t="sap.ui.table"
 		xmlns:f="sap.f"
 		xmlns:layout="sap.ui.layout"
 		xmlns:form="sap.ui.layout.form"
@@ -45,9 +44,9 @@
 						<form:content>
 							<VBox>
 								<Label text="Sales Order Number:" labelFor="sono" />
-								<Input id="sono" value="{viewModel>/filter/sono}"/>
+								<Input id="sono" value="{viewModel>/filter/sono}" placeholder="Enter Order No."/>
 								<layoutData>
-									<layout:GridData span="L2 M12 S12" />
+									<layout:GridData span="L3 M12 S12" />
 								</layoutData>
 							</VBox>
 							<VBox>
@@ -57,125 +56,93 @@
 									valueFormat="yyyy-MM-dd"
 									value="{viewModel>/filter/sodat}"/>
 								<layoutData>
-									<layout:GridData span="L2 M12 S12" />
+									<layout:GridData span="L3 M12 S12" />
 								</layoutData>
 							</VBox>
 							<VBox>
 								<Label text="Customer:" labelFor="cuscd"/>
-								<Input id="cuscd" value="{viewModel>/filter/cuscd}"/>
+								<Input id="cuscd" value="{viewModel>/filter/cuscd}" placeholder="Enter Code."/>
 								<layoutData>
-									<layout:GridData span="L2 M12 S12" />
+									<layout:GridData span="L3 M12 S12" />
 								</layoutData>
 							</VBox>
-							<VBox>
+							<VBox alignItems="End" width="100%">
 								<Button text="Search" press="onSearch" />
 								<layoutData>
 									<layout:GridData span="L1 M12 S12" />
 								</layoutData>
 							</VBox>
-							<VBox>
-								<Button text="Create" press="onCreate"/>
-								<layoutData>
-									<layout:GridData span="L1 M12 S12" />
-								</layoutData>
-							</VBox>
 						</form:content>
+							
 					</form:SimpleForm>
 						
 				</f:DynamicPageHeader>
 			</f:header>
+
 			<f:content>
-				<t:Table 	
-						id="listTable"
-						rows="{viewModel>/it_data}"
-						selectionMode="Single"
-						rowHeight="Auto">
-					<t:extension>
-						<OverflowToolbar style="Clear">
-							<Title text="Order List"/>
-				    	<!-- <ToolbarSpacer/>
-								<Button
-								icon="sap-icon://add"
-								press="onAdd"/>
-								<Button
-								icon="sap-icon://less"
-								press="onDelete"/>
-								<Button
-								text="Edit"
-								press="onEdit"/>
-								<Button
-								text="Save"
-								press="onSave"/>
-								<Button
-								text="SelectedDelete"
-								press="onSelectedDelete"/> -->
-						</OverflowToolbar>
-					</t:extension>
-					<!-- <columns>
-						<Column>
-							<Text text="Order No." />
-						</Column>
-						<Column>
-							<Text text="Order Date" />
-						</Column>
-						<Column>
-							<Text text="Customer" />
-						</Column>
-						<Column>
-							<Text text="Status" />
-						</Column>
-					</columns> -->
-					<t:columns>
-						<t:Column width="11rem">
-							<Label text="Order No." />
-							<t:template>
-								<Input value="{viewModel>sono}" editable ="{viewModel>/editMode}" />
-							</t:template>
-						</t:Column>
-						<t:Column width="11rem">
-							<Label text="Status" />
-							<t:template>
-								<Input value="{viewModel>sosta}" editable ="{viewModel>/editMode}"/>
-							</t:template>
-						</t:Column>
-						<t:Column width="11rem" hAlign="End">
-							<Label text="Order Date" />
-							<t:template>
-								<DatePicker
-									id="sodat"
-									valueFormat="yyyy-MM-dd"
-									value="{viewModel>sodat}"
-									editable ="{viewModel>/editMode}"/>
-							</t:template>
-						</t:Column>
-						<!-- <t:Column width="11rem">
-							<Label text="Price" />
-							<t:template>
-								<Input value="{
-									path: 'viewModel>price'
-								}"
-								editable ="{viewModel>/editMode}" />
-								<u:Currency value="{main>price}" currency="{main>currency}"/>
-							</t:template>
-						</t:Column> -->
-						<t:Column width="11rem">
-							<Label text="Customer" />
-							<t:template>
-								<Input value="{viewModel>cuscd}" editable ="{viewModel>/editMode}"/>
-							</t:template>
-						</t:Column>
-						<t:Column width="11rem">
-							<Label text="Customer Name" />
-							<t:template>
-								<Input value="{viewModel>cusnm}" editable ="{viewModel>/editMode}"/>
-							</t:template>
-						</t:Column>				
-					</t:columns>
-				</t:Table>
+				<Table id="orderTable"
+						sticky="ColumnHeaders,HeaderToolbar"
+						inset="false"
+						growing="true"
+						items="{viewModel>/it_data}"
+						class="sapFDynamicPageAlignContent"
+						width="auto">
+						<headerToolbar>
+							<OverflowToolbar>
+								<Title text="Order List"/>
+								<ToolbarSpacer/>
+								<Button text="New Order" press="onCreate"/>
+							</OverflowToolbar>
+						</headerToolbar>
+						<columns>
+							<Column>
+								<Text text="Sales Order Number" />
+							</Column>
+							<Column minScreenWidth="Desktop" demandPopin="true">
+									<Text text="Status"/>
+							</Column>
+							<Column minScreenWidth="Desktop" demandPopin="true">
+								<Text text="Date" />
+							</Column>
+							<Column minScreenWidth="Desktop" demandPopin="true">
+								<Text text="Customer Code" />
+							</Column>
+							<Column minScreenWidth="Desktop" demandPopin="true">
+								<Text text="Customer Name" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem type="Navigation" press="onDetail" >
+								<cells>
+									<!-- <ObjectIdentifier title="{viewModel>cuscd}" titleActive="true" text="{viewModel>sono}" /> -->
+									<ObjectIdentifier text="{viewModel>sono}"  />
+									<Text text="{viewModel>sosta_t}" />
+									<Text text="{ 
+											path :'viewModel>sodat',
+											type : 'sap.ui.model.odata.type.Date',
+											constraints : {
+												displayFormat : 'yyyy/mm/dd'
+											}
+										}"  />
+									<Text text="{viewModel>cuscd}" />
+									<Text text="{viewModel>cusnm}" />
+									<!-- <ObjectNumber
+											number="{
+												parts:[{path:'viewModel>mandt'},{path:'viewModel>linno'}],
+												type: 'sap.ui.model.type.Currency',
+												formatOptions: {showMeasure: false}
+											}"
+											unit="{viewModel>linno}" /> -->
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+
 			</f:content>
+
 			<!-- DynamicPage Footer -->
-			<f:footer>
-				<!-- <OverflowToolbar>
+			<!-- <f:footer>
+				<OverflowToolbar>
 					<Button icon="sap-icon://message-popup"
 							text="{/messagesLength}"
 							type="Emphasized"
@@ -184,7 +151,7 @@
 					<ToolbarSpacer/>
 					<Button type="Accept" text="Accept"/>
 					<Button type="Reject" text="Reject"/>
-				</OverflowToolbar> -->
-			</f:footer>
+				</OverflowToolbar>
+			</f:footer> -->
 		</f:DynamicPage>
 </mvc:View>

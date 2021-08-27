@@ -65,7 +65,7 @@
           "bundleName": "createsalesorder.i18n.i18n"
         }
       },
-      "": {
+      "main": {
         "dataSource": "mainService",
         "preload": true
       },
@@ -98,8 +98,13 @@
         },
         {
           "name": "Object",
-          "pattern": "Object/:orderNumber:",
+          "pattern": "Order/:orderNumber:",
           "target": ["Object"]
+        },
+        {
+          "name": "DisplayOrder",
+          "pattern": "DisplayOrder/:orderNumber:",
+          "target": ["DisplayOrder"]
         }
       ],
       "targets": {
@@ -116,6 +121,13 @@
           "clearControlAggregation": false,
           "viewId": "Object",
           "viewName": "Object"
+        },
+        "DisplayOrder": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "DisplayOrder",
+          "viewName": "DisplayOrder"
         }
       }
     }
